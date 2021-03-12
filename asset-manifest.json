@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/connectfourai/static/css/main.9d5b29c0.chunk.css",
+    "main.js": "/connectfourai/static/js/main.6f1913f3.chunk.js",
+    "main.js.map": "/connectfourai/static/js/main.6f1913f3.chunk.js.map",
+    "runtime-main.js": "/connectfourai/static/js/runtime-main.b032c193.js",
+    "runtime-main.js.map": "/connectfourai/static/js/runtime-main.b032c193.js.map",
+    "static/js/2.7e21ce4b.chunk.js": "/connectfourai/static/js/2.7e21ce4b.chunk.js",
+    "static/js/2.7e21ce4b.chunk.js.map": "/connectfourai/static/js/2.7e21ce4b.chunk.js.map",
+    "static/js/3.609f6042.chunk.js": "/connectfourai/static/js/3.609f6042.chunk.js",
+    "static/js/3.609f6042.chunk.js.map": "/connectfourai/static/js/3.609f6042.chunk.js.map",
+    "index.html": "/connectfourai/index.html",
+    "static/css/main.9d5b29c0.chunk.css.map": "/connectfourai/static/css/main.9d5b29c0.chunk.css.map",
+    "static/js/2.7e21ce4b.chunk.js.LICENSE.txt": "/connectfourai/static/js/2.7e21ce4b.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/connectfourai/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b032c193.js",
+    "static/js/2.7e21ce4b.chunk.js",
+    "static/css/main.9d5b29c0.chunk.css",
+    "static/js/main.6f1913f3.chunk.js"
+  ]
+}
