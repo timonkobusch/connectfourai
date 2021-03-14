@@ -1,7 +1,61 @@
 import '../style/connectFour.css';
 import { useState } from 'react';
 
-function aiMove(grid) {
+function evaluate() {
+
+}
+function max(a, b) {
+  return a>b ? a : b;
+}
+
+function min(a,b) {
+  return a<b ? a: b;
+}
+
+function addStone(g, i, p) {
+  let row = 6;
+  for( let j = 0; j < 6; j++) {
+    if(g[i][j]) {
+      row = j;
+      break;
+    }
+  }
+  g[i][row-1] = p ? 1 : -1;
+  return g;
+}
+
+function minimax(g, depth, maxPlayer) {
+  if (depth === 0) return evaluate();
+  let res = gameOver(g);
+  if (res !== 0) return res*10000;
+  let value;
+  let moves = [1,2,3,4,5];
+  if (maxPlayer) {
+    value = -99999;
+    for (let elt of moves) {
+      value = max(value, minimax(addStone(g, elt, true), depth -1, false));
+    }
+    return value;
+  } 
+  else {
+    value = 99999;
+    for(let elt of moves) {
+      value = min(value, minimax(addStone(g, elt, false), depth -1, true));
+    }
+    return value;
+  }
+
+
+}
+
+function aiMove(pgrid) {
+  let g = [];
+
+  for (let j = 0; j < pgrid.length; j++)
+     g[j] = pgrid[j].slice();
+
+  let move = minimax(g, 5, true);
+  
   
   return 1;
 }
@@ -47,15 +101,14 @@ export default function ConnectFour(props) {
         gridCopy[j] = g[j].slice();
 
 
-      let row = -1;
+      let row = 6;
       for( let j = 0; j < 6; j++) {
         if(gridCopy[i][j]) {
           row = j;
           break;
         }
       }
-      if( row === -1 ) gridCopy[i][5] = p ? 1 : -1;
-      else gridCopy[i][row-1] = p ? 1 : -1;
+      gridCopy[i][row-1] = p ? 1 : -1;
       
       console.log("move at" + i + row);
       setGrid(gridCopy);
@@ -82,17 +135,22 @@ export default function ConnectFour(props) {
     }
 
     return (
-      <div className={"ConnectFour"}>
+      <div className={"background"}>
+      <div className={"connect-four"}>
+        <div className={"header"}>
+          <h1>Connect Four AI</h1>
+          <h2>made by jannis becketepe and timon kobusch.</h2>
+        </div>
         <div className={"menu"}>
-            <h1>ConnectFour</h1>
-            <p>{pNext ? 'Your turn' : 'Computers turn'}</p>
-            <p>game state: {gameState}</p>
-            <button onClick={handleResetClick}>reset</button>
+          <p>{pNext ? 'Your turn. Click a column.' : 'Computers turn'}</p>
+          <p>{gameState === 1 ? 'You won' : gameState === -1 ? 'The Computer won' : ''}</p>
+          <button className="restart-button" onClick={handleResetClick}>restart</button>
         </div>
         <Board 
             grid={grid}
             onClick={i => handleClick(i)}
         />
+      </div>
       </div>
     );
 }
