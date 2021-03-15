@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/connectfourai/static/css/main.25abe7b3.chunk.css",
-    "main.js": "/connectfourai/static/js/main.ed0f17f8.chunk.js",
-    "main.js.map": "/connectfourai/static/js/main.ed0f17f8.chunk.js.map",
+    "main.js": "/connectfourai/static/js/main.37aab241.chunk.js",
+    "main.js.map": "/connectfourai/static/js/main.37aab241.chunk.js.map",
     "runtime-main.js": "/connectfourai/static/js/runtime-main.5685e2c5.js",
     "runtime-main.js.map": "/connectfourai/static/js/runtime-main.5685e2c5.js.map",
     "static/js/2.5b51458d.chunk.js": "/connectfourai/static/js/2.5b51458d.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.5685e2c5.js",
     "static/js/2.5b51458d.chunk.js",
     "static/css/main.25abe7b3.chunk.css",
-    "static/js/main.ed0f17f8.chunk.js"
+    "static/js/main.37aab241.chunk.js"
   ]
 }
