@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/connectfourai/static/css/main.b6701d55.chunk.css",
-    "main.js": "/connectfourai/static/js/main.8bed520b.chunk.js",
-    "main.js.map": "/connectfourai/static/js/main.8bed520b.chunk.js.map",
-    "runtime-main.js": "/connectfourai/static/js/runtime-main.7345651e.js",
-    "runtime-main.js.map": "/connectfourai/static/js/runtime-main.7345651e.js.map",
-    "static/js/2.4ed89ff5.chunk.js": "/connectfourai/static/js/2.4ed89ff5.chunk.js",
-    "static/js/2.4ed89ff5.chunk.js.map": "/connectfourai/static/js/2.4ed89ff5.chunk.js.map",
-    "static/js/3.3827c844.chunk.js": "/connectfourai/static/js/3.3827c844.chunk.js",
-    "static/js/3.3827c844.chunk.js.map": "/connectfourai/static/js/3.3827c844.chunk.js.map",
+    "main.css": "/connectfourai/static/css/main.25abe7b3.chunk.css",
+    "main.js": "/connectfourai/static/js/main.ef8fe452.chunk.js",
+    "main.js.map": "/connectfourai/static/js/main.ef8fe452.chunk.js.map",
+    "runtime-main.js": "/connectfourai/static/js/runtime-main.5685e2c5.js",
+    "runtime-main.js.map": "/connectfourai/static/js/runtime-main.5685e2c5.js.map",
+    "static/js/2.5b51458d.chunk.js": "/connectfourai/static/js/2.5b51458d.chunk.js",
+    "static/js/2.5b51458d.chunk.js.map": "/connectfourai/static/js/2.5b51458d.chunk.js.map",
+    "static/js/3.e3f321a3.chunk.js": "/connectfourai/static/js/3.e3f321a3.chunk.js",
+    "static/js/3.e3f321a3.chunk.js.map": "/connectfourai/static/js/3.e3f321a3.chunk.js.map",
     "index.html": "/connectfourai/index.html",
-    "static/css/main.b6701d55.chunk.css.map": "/connectfourai/static/css/main.b6701d55.chunk.css.map",
-    "static/js/2.4ed89ff5.chunk.js.LICENSE.txt": "/connectfourai/static/js/2.4ed89ff5.chunk.js.LICENSE.txt",
+    "static/css/main.25abe7b3.chunk.css.map": "/connectfourai/static/css/main.25abe7b3.chunk.css.map",
+    "static/js/2.5b51458d.chunk.js.LICENSE.txt": "/connectfourai/static/js/2.5b51458d.chunk.js.LICENSE.txt",
     "static/media/connectFour.css": "/connectfourai/static/media/lowpoly.1be7c02d.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.7345651e.js",
-    "static/js/2.4ed89ff5.chunk.js",
-    "static/css/main.b6701d55.chunk.css",
-    "static/js/main.8bed520b.chunk.js"
+    "static/js/runtime-main.5685e2c5.js",
+    "static/js/2.5b51458d.chunk.js",
+    "static/css/main.25abe7b3.chunk.css",
+    "static/js/main.ef8fe452.chunk.js"
   ]
 }
