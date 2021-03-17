@@ -166,7 +166,8 @@ h2 {
     --box-shadow-color: #8c8c8c;
 }
 .col-border:hover {
-    --box-shadow-color: #777777;
+    --box-shadow-color: #a3a3a3;
+    border-radius: 50%;
 }
 .cell-border {
     position: relative;

@@ -12,8 +12,8 @@ function Cell(props) {
 
   return (
       <div>
-        <div className={'cell'}><div className={classname}></div>
-      </div></div>
+        <div className={'cell'}><div className={classname}></div></div>
+      </div>
         
   )
 }
@@ -78,9 +78,9 @@ function Log(props) {
 
 export default function ConnectFour(props) {
     const [grid, setGrid] = useState( createGrid() );
-    const [pNext, setNext] = useState( true );
-    const [gameState, setGame] = useState(0);
-    const [gameActive, setActive] = useState(false);
+    const [pNext, setNext] = useState( true ); // is player Next
+    const [gameState, setGame] = useState(0); // 0 == not decided, 1 / -1 win for Player/Computer, 2 == draw
+    const [gameActive, setActive] = useState(false); // game "activated" by button?
     const [showLog, setShowLog] = useState(false);
     const [log, setLog] = useState('>');
     const [movecount, setCount] = useState(1);
@@ -88,7 +88,6 @@ export default function ConnectFour(props) {
     function makeMove(i, g, p) {
       if (g[i][0] || isGameOver(g)) {
         console.log("col full");
-        
         return null;
       }
       let gridCopy = [];
@@ -113,18 +112,16 @@ export default function ConnectFour(props) {
     async function handleClick(i) {
       if( gameActive && gameState === 0 && pNext) {
         setNext(false);
-        let nGrid = makeMove(i, grid, true);
-        if (!nGrid) {
+        let newGrid = makeMove(i, grid, true);
+        if (!newGrid) {
           setNext(true);
           return;
         }
-        let gridCopy = [];
-        for (let j = 0; j < nGrid.length; j++)
-          gridCopy[j] = nGrid[j].slice();
         await new Promise(r => setTimeout(r, 550));
-        aiMove(gridCopy).then(
+        aiMove(newGrid).then(
             result => {
-              makeMove(result[0], gridCopy, false);
+              //result[0] == the calculated move column, [1] == log text
+              makeMove(result[0], newGrid, false);
               setLog("> move: " + movecount + result[1]);
               setCount(movecount + 1);
               setNext(true);
@@ -201,11 +198,3 @@ function createGrid() {
     }
     return x;
 }
-/* 
-function checkFields(a, b, c, d) {
-  if (a && a === b && b === c && c === d) {
-    return a;
-  }
-  return null;
-}
-*/

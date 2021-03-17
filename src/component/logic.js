@@ -3,36 +3,48 @@
 function max(a, b) {
     return a > b ? a: b;
 }
-let search, prune;
+
+let searches, prune;
 export async function aiMove(grid) {
     return new Promise(function(resolve, reject) {
-        if (isGameOver(grid) !== 0) return 0;
-        search = 0;
-        prune = 0;
-        let moves = generateMoves(grid);
-        let maxValue = -Infinity;
-        let best, v;
-        // maximum of 1000000 searches becaus moves m^depth = searches
-        let maxdepth = Math.round(Math.log(1000000) / Math.log(moves.length));
-        
-        if (moves.length === 1) resolve(moves[0].col);
-        for(let m of moves) {
-            addMove(grid, m, -1);
-            v = -negaMax(grid, maxdepth, -Infinity, Infinity, 1);
-            console.log("move: "+ m.col + "value: " + v);
-            if (v > maxValue) {
-                best = m;
-                maxValue = v;
-            }
-            subMove(grid, m, -1);
+        if (isGameOver(grid) !== 0) {
+            console.log("finished grid.");
+            return null;
         }
-        let text = " | searchdepth: " + maxdepth + " | analysed moves: " 
-                    + search + " | 'skipped' moves: " + prune;
-        
-        let left = (maxdepth - Math.abs(maxValue /1000))/2
-        if (maxValue >= 1000) text += " | win in " + left + (left === 1 ? " move" : " moves");
+        searches = 0;
+        prune = 0;
+        let moves = generateMoves(grid); // possible moves array
+        let maxValue = -Infinity;
+        let v;
+        // maximum of 1000000 searches because moves m^depth = searches
+        let maxdepth = Math.round(Math.log(5000000) / Math.log(moves.length));
 
-        resolve([best.col, text]);
+        if (moves.length === 1) 
+            resolve([moves[0].col, " | no moves need to be analysed"]); 
+        else {
+            let best = moves[0];
+            // evaluate all moves and choose the best
+            for(let m of moves) {
+                addMove(grid, m, -1);
+                v = -negaMax(grid, maxdepth, -Infinity, Infinity, 1);
+                console.log("move: " + m.col + "value: " + v);
+                if (v > maxValue) {
+                    best = m;
+                    maxValue = v;
+                }
+                subMove(grid, m, -1);
+            }
+
+            let text = " | searchdepth: " + maxdepth + " | analysed moves: " 
+                        + searches + " | 'skipped' moves: " + prune;
+            
+            // win or loss is a mutliple of 1000. The higher the lesser moves to win/lose
+            let left = (maxdepth - Math.abs(maxValue /1000))/2
+            if (maxValue >= 1000) text += " | win in " + left + (left === 1 ? " move" : " moves");
+            else if (maxValue <= -1000) text += " | loss in " + left + (left === 1 ? " move" : " moves");
+
+            resolve([best.col, text]);
+        }
     });
 }
 
@@ -61,10 +73,18 @@ function negaMax(grid ,depth, alpha, beta, color) {
 
 
 function evaluate(grid, color, depth) {
-    search += 1;
+    searches += 1;
     let result = isGameOver(grid);
-    if (result === -1 || result === 1) return depth * 1000 * color * result;
-    if (result === 2) return 0;
+    if (isGameOver(grid) === color) {
+        return 1000*depth;
+    }
+    if (isGameOver(grid) === -color) {
+        return -1000*depth;
+    }
+
+    if (result === 2) {
+        return 0;
+    }    
     return countThree(grid, color);
 }
 
@@ -120,6 +140,8 @@ const move_table =
      4,6, 8,10, 8,6,4,
      3,4, 5, 7, 5,4,3];
 function generateMoves(grid) {
+
+    // generates a sorted array of all possible moves
     let moves = [];
     for (let col = 0; col < 7; col++) {
         for (let row = 6 - 1; row >= 0; row--) {
@@ -134,12 +156,10 @@ function generateMoves(grid) {
 }
 
 function addMove(grid, move, player) {
-    if (grid[move.col][move.row]) console.error("Invalid move: " + move.col + " " + move.row);
     grid[move.col][move.row] = player;
 }
 
 function subMove(grid, move, player) {
-    if (grid[move.col][move.row] !== player) console.error("Invalid revert: " + move.col + " " + move.row);
     grid[move.col][move.row] = null;
 }
 
