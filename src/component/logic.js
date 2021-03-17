@@ -3,35 +3,44 @@
 function max(a, b) {
     return a > b ? a: b;
 }
-
+let search, prune;
 export async function aiMove(grid) {
     return new Promise(function(resolve, reject) {
         if (isGameOver(grid) !== 0) return 0;
+        search = 0;
+        prune = 0;
         let moves = generateMoves(grid);
         let maxValue = -Infinity;
         let best, v;
-        
         // maximum of 1000000 searches becaus moves m^depth = searches
         let maxdepth = Math.round(Math.log(1000000) / Math.log(moves.length));
-
-        console.log("maxdepth = "+ maxdepth + "moves: " + moves.length);
+        
+        if (moves.length === 1) resolve(moves[0].col);
         for(let m of moves) {
             addMove(grid, m, -1);
             v = -negaMax(grid, maxdepth, -Infinity, Infinity, 1);
+            console.log("move: "+ m.col + "value: " + v);
             if (v > maxValue) {
                 best = m;
                 maxValue = v;
             }
             subMove(grid, m, -1);
         }
-        resolve(best.col);
+        let text = " | searchdepth: " + maxdepth + " | analysed moves: " 
+                    + search + " | 'skipped' moves: " + prune;
+        
+        let left = (maxdepth - Math.abs(maxValue /1000))/2
+        if (maxValue >= 1000) text += " | win in " + left + (left === 1 ? " move" : " moves");
+
+        resolve([best.col, text]);
     });
 }
 
 // alpha-beta-pruning with negaMax
 function negaMax(grid ,depth, alpha, beta, color) {
-    if (depth === 0 || isGameOver(grid))
+    if (depth === 0 || isGameOver(grid)) {
         return evaluate(grid, color, depth);
+    }
 
     let moves = generateMoves(grid);
     let value = -Infinity;
@@ -41,7 +50,10 @@ function negaMax(grid ,depth, alpha, beta, color) {
         alpha = max(alpha, value);
         subMove(grid, move, color);
 
-        if (alpha >= beta) break;
+        if (alpha >= beta) {
+            prune += (7-moves.length) * Math.pow(7, depth-1 >= 0 ? depth-1 : 0);
+            break; 
+        }
     }
     return value;
 }
@@ -49,9 +61,10 @@ function negaMax(grid ,depth, alpha, beta, color) {
 
 
 function evaluate(grid, color, depth) {
-    if (isGameOver(grid) === color) return depth*1000;
-    else if (isGameOver(grid) === -color) return -1000*depth;
-    
+    search += 1;
+    let result = isGameOver(grid);
+    if (result === -1 || result === 1) return depth * 1000 * color * result;
+    if (result === 2) return 0;
     return countThree(grid, color);
 }
 
@@ -105,7 +118,7 @@ const move_table =
      5,8,11,13,11,8,5,
      5,8,11,13,11,8,5,
      4,6, 8,10, 8,6,4,
-     3,4, 5, 7, 5,4,3,];
+     3,4, 5, 7, 5,4,3];
 function generateMoves(grid) {
     let moves = [];
     for (let col = 0; col < 7; col++) {
@@ -116,7 +129,7 @@ function generateMoves(grid) {
             }
         }
     }
-    // sort moves by distance to the middle column
+    // sort moves by value of move_table
     return moves.sort((a, b) => move_table[b.row*7 + b.col] - move_table[a.row * 7 + a.col]);
 }
 
@@ -131,15 +144,11 @@ function subMove(grid, move, player) {
 }
 
 export function isGameOver(grid) {
-    let draw = true;
-    for (let i = 0; i < 7; i++)
-        if(!grid[i][0]) draw = false;
 
     function checkFields(a, b, c, d) {
         if (a && a === b && b === c && c === d) return a;
         else return null;
     }
-
     // check rows
     for (let j = 0; j < 6; j++) {
         for (let i = 0; i < 4; i++) {
@@ -147,7 +156,6 @@ export function isGameOver(grid) {
         if(winner) return winner;
         }
     }
-
     //check columns
     for (let i = 0; i < 7; i++) {
         for (let j = 0; j < 3; j++) {
@@ -155,7 +163,6 @@ export function isGameOver(grid) {
         if (winner) return winner;
         }
     }
-
     //diagonals top left to bottom right
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 3; j++) {
@@ -163,7 +170,6 @@ export function isGameOver(grid) {
         if (winner) return winner;
         }
     }
-
     //diagonals top right to bottom
     for (let i = 3; i < 7; i++) {
         for (let j = 0; j < 3; j++) {
@@ -171,5 +177,9 @@ export function isGameOver(grid) {
         if (winner) return winner; 
         }
     }
-    return draw ? 2 : 0;
+
+    for (let i = 0; i < 7; i++)
+        if(!grid[i][0]) return 0;
+    
+    return 2;
 }

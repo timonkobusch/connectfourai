@@ -1,31 +1,46 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+
+
+
 html, body, #app, #app>div {
     height: 100%;
     margin: 0;
 }
+
+@keyframes imagean {
+    from{opacity: 0;}
+    to {opacity: 1;}
+}
 body {
-    background-image: url("lowpoly.png");
-    background-color: #cccccc;
-}
-.background {
+     
+    background-image: url("./images/lowpoly_xs.png");
+    background-size: 100% 100%;
+    animation-name: imagean;
+    animation-duration: 1s;
+    background-repeat: repeat;
     display: flex;
-    align-items: middle;
+    align-items: center;
+    
+    justify-items: center;
+    --cell-size: 20px;
 }
+#root {
+    display:flex;
+    width: 100%;
+    height: 100%;
+}
+
 .connect-four {
-    justify-self: middle;
+    justify-self: center;
+    align-self: center;
     font-family: 'Lato', sans-serif;
-    width: 50%;
-    min-width: 300px;
-    height: 80%;
-    margin: auto;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    margin-left: auto;
     display: flex;
+    width: 90%;
+    margin: auto;
     flex-direction: column;
-    background-color: #0B0C10;
+    background-color: #8c8c8c;
     box-shadow: 0px 13px 35px 0px rgba(0,0,0,0.75);
     border-radius: 2%;
 }
@@ -36,11 +51,10 @@ body {
 }
 
 
-
 h1 {
     margin: 0;
     margin-top: 30px;
-    font-size: 4vw;
+    font-size: 2rem;
     text-align: center;
     color: #FC4445;
 }
@@ -48,11 +62,11 @@ h1 {
 h2 {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
-    color: grey;
+    color: white;
     padding-left: 20px;
     padding-right: 20px;
     margin-bottom: 40px;
-    font-size: 1.5vw;
+    font-size: 1rem;
     text-align: center;
 }
 .game-button {
@@ -63,8 +77,8 @@ h2 {
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	font-size:1vw;
-	padding:5px 31px;
+	font-size:1rem;
+	padding:5px 20px;
     margin-top: 20px;
 	text-decoration:none;
 }
@@ -120,25 +134,128 @@ h2 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-
+/*
+  GAME GRID:
+*/
 .board {
-    border: 5px solid #666666;
-    border-radius: 2%;
-    margin: 50px auto;
     display: flex;
     flex-direction: row;
-    box-shadow:  15px 15px 27px #14161bb4, -15px -15px 27px #111318;
+    margin: 10px auto;
+    border: 20px solid #8c8c8c;
+    border-radius: 50px;
+    background: #8c8c8c;
+    box-shadow:  20px 20px 60px #777777,
+             -20px -20px 60px #a1a1a1;
 }
+
+.col {
+    display: flex;
+    flex-direction: column;
+    background-color: #b1b1b1;
+    overflow: hidden;
+}
+
+.column-box {
+    position: relative;
+}
+.col-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--cell-size)*1.5);
+    --box-shadow-color: #8c8c8c;
+}
+.col-border:hover {
+    --box-shadow-color: #777777;
+}
+.cell-border {
+    position: relative;
+    width: calc(var(--cell-size) * 1.5);
+    height: calc(var(--cell-size) * 1.5);
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.cell-border:after {
+    content: '';
+    position: absolute;
+    left: calc(var(--cell-size) / 4);
+    top: calc(var(--cell-size) / 4);
+    border-radius: 100%;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    box-shadow: 0 0 0 2000px var(--box-shadow-color);
+    
+}
+
+
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    margin: calc(var(--cell-size) / 4);
+    border-radius: 100%;
+}
+
+@keyframes animateIn {
+    from {top: -400px;}
+    to {top: -1px;}
+}
+.p1, .p2 {
+    position: relative;
+    width: calc(var(--cell-size) + 2px);
+    height: calc(var(--cell-size) + 2px);
+    top: -2px;
+    left: -2px;
+    border-radius: 100%;
+    animation-duration: 0.55s;
+    animation-name: animateIn;
+}
+.p1 {
+    background-color: #FC4445;
+}
+
+.p2 {
+    background-color: #fff23e;
+}
+
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.log {
+    display: flex;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: left;
+}
+.log p {
+    margin: 0;
+    color: rgb(48, 48, 48);
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
 .log-switch {
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.log-switch p {
+    color: white;
 }
 .switch {
+    --radius: 20px;
+    --gap: 3px;
+    --inner: calc(var(--radius) - var(--gap));
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: calc(2*var(--radius));
+    height: calc(var(--radius) + var(--gap));
 }
 
 /* Hide default HTML checkbox */
@@ -156,18 +273,19 @@ h2 {
     left: 0;
     right: 0;
     bottom: 0;
+    
+    border-radius:  calc(var(--radius) + var(--gap));
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
 }
-
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: var(--inner);
+    width: var(--inner);
+    left: var(--gap);
+    bottom: var(--gap);
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
@@ -182,88 +300,171 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(var(--inner));
+    -ms-transform: translateX(var(--inner));
+    transform: translateX(var(--inner));
 }
 
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-.col {
-    display: flex;
-    flex-direction: column;
-    background-color: #949494;
-    overflow: hidden;
-}
-
-.column-box {
-    position: relative;
-}
-.col-border {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60px;
-    --box-shadow-color: #666666;
-}
-.col-border:hover {
-    --box-shadow-color: #545454;
-}
-.cell-border {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.cell-border:after {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    border-radius: 100%;
-    width: 40px;
-    height: 40px;
-    box-shadow: 0 0 0 2000px var(--box-shadow-color);
+/* Small devices/landscape*/
+@media (min-width: 576px) {
     
+    body {
+        background-image: url("./images/lowpoly_s.png");
+        background-size: cover;
+    }
+    .connect-four {
+        flex-direction: row;
+    }
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+    }
+    h1 {
+        font-size: 4vw;
+        margin-left: 10px;
+
+    }
+    h2 {
+        font-size: 1.5vw;
+    }
+    .menu {
+        margin-left: 5px;
+        margin-right: 5px;
+        flex-direction: column;
+    }
+    .log-switch {
+        display: none;
+    }
+    .log {
+        display: none;
+    }
+    .board {
+        margin-right: 10px;
+    }
+    .game-button {
+        font-size: 1.5vw;
+    }
+    .menu p {
+        font-size: 1.5vw;
+        padding-top: 5px;
+    }
+}
+/* Medium devices*/
+@media (min-width: 768px) {
+    body {
+        background-image: url("./images/lowpoly_m.png");
+        background-size: 100% 100%;
+        --cell-size: 3vw;
+    }
+    .connect-four {
+        flex-direction: column;
+        margin-left: 0;
+        margin-right: 0;
+        margin: auto;
+    }
+    .header {
+        display: block;
+    }
+    .menu {
+        flex-direction: row;
+    }
+    
+    h1 {
+        font-size: 5vw;
+    }
+    h2 {
+        font-size: 1.9vw;
+        margin-bottom: 0;
+    }
+    .connect-four {
+        width: 60%;
+    }
+    .menu {
+        margin-bottom: 10px;
+    }
+    .game-button {
+        font-size: 1.8vw;
+        padding: 0.5vw;
+        padding-left: 1.3vw;
+        padding-right: 1.3vw;
+    }
+    .menu p {
+        font-size: 1.8vw;
+    }
+    .switch {
+        --radius: 30px;
+        --gap: 4px;
+    }
+    .log {
+        display: flex;
+        width: 50%;
+        margin-bottom: 20px;
+    }
+    .board {
+        margin-right: auto;
+    }
+    .log p {
+        font-size: 15px;
+        margin: 0;
+    }
+    .log-switch p {
+        font-size: 15px;
+    }
+    .log-switch {
+        display: flex;
+        margin-bottom: 10px;
+    }
 }
 
-
-
-.cell {
-    width: 40px;
-    height: 40px;
-    margin: 10px;
-    border-radius: 100%;
-}
-
-
-
-@keyframes animateIn {
-    from {top: -400px;}
-    to {top: -1px;}
-}
-.p1, .p2 {
-    position: relative;
-    width: 41px;
-    height: 41px;
-    top: -1px;
-    left: -1px;
-    border-radius: 100%;
-    animation-duration: 0.55s;
-    animation-name: animateIn;
-}
-.p1 {
-    background-color: #FC4445;
-}
-
-.p2 {
-    background-color: #fff23e;
+/* Large devices*/
+@media (min-width: 992px) {
+    body {
+        background-image: url("./images/lowpoly_l.png");
+        background-size: 100% 100%;
+        --cell-size: min(4vh, 3vw);
+    }
+    h1 {
+        font-size: 5vw;
+    }
+    h2 {
+        font-size: 1.9vw;
+        margin-bottom: 0;
+    }
+    .connect-four {
+        width: 60%;
+    }
+    .menu {
+        margin-bottom: 10px;
+    }
+    .game-button {
+        font-size: 1.3vw;
+        padding: 0.5vw;
+        padding-left: 1.3vw;
+        padding-right: 1.3vw;
+    }
+    .menu p {
+        font-size: 1.3vw;
+        padding-top: 20px;
+    }
+    .switch {
+        --radius: 30px;
+        --gap: 4px;
+    }
+    .log {
+        width: 40%;
+        margin-bottom: 20px;
+    }
+    .log p {
+        font-size: 15px;
+        margin: 0;
+    }
+    .log-switch p {
+        font-size: 15px;
+    }
+    .log-switch {
+        margin-bottom: 10px;
+    }
 }

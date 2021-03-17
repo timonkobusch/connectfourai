@@ -38,12 +38,52 @@ function Board(props) {
   )
 }
 
+function State(props) {
+  let text ='';
+  const s = props.state
+  
+  if (s ===  1) text = 'you have won! this must be a bug...';
+  if (s === -1) text = 'the computer has won.';
+  if (s ===  2) text = 'the game is a draw.';
+  if (s ===  0)  text = props.pnext ? 'your turn. click a column.' : 'the computer is thinking.';
+
+  return <p>{text}</p>
+}
+
+function Menu(props) {
+  const active = props.active;
+  const state = props.state;
+  const pnext = props.pNext;
+  const click = props.click;
+
+  let load = null;
+  if (active && state === 0 && !pnext)
+    load = <div className="load"></div>;
+
+  return (<div className={"menu"}>
+              <button className="game-button" onClick={click}>{active ? 'reset' : 'start game'}</button>
+              {load}
+              <State state={state} pnext ={pnext}/>
+          </div>)
+}
+
+function Log(props) {
+  if (props.show) {
+    return (<div className={"log"}>
+              <p>{props.log}</p>
+            </div>)
+  }
+  else return null;
+}
 
 export default function ConnectFour(props) {
     const [grid, setGrid] = useState( createGrid() );
     const [pNext, setNext] = useState( true );
     const [gameState, setGame] = useState(0);
     const [gameActive, setActive] = useState(false);
+    const [showLog, setShowLog] = useState(false);
+    const [log, setLog] = useState('>');
+    const [movecount, setCount] = useState(1);
 
     function makeMove(i, g, p) {
       if (g[i][0] || isGameOver(g)) {
@@ -78,13 +118,15 @@ export default function ConnectFour(props) {
           setNext(true);
           return;
         }
-        //let gridCopy = [];
-        //for (let j = 0; j < nGrid.length; j++)
-        //  gridCopy[j] = nGrid[j].slice();
+        let gridCopy = [];
+        for (let j = 0; j < nGrid.length; j++)
+          gridCopy[j] = nGrid[j].slice();
         await new Promise(r => setTimeout(r, 550));
-        aiMove(nGrid).then(
+        aiMove(gridCopy).then(
             result => {
-              makeMove(result, nGrid, false);
+              makeMove(result[0], gridCopy, false);
+              setLog("> move: " + movecount + result[1]);
+              setCount(movecount + 1);
               setNext(true);
             }
         )
@@ -92,13 +134,20 @@ export default function ConnectFour(props) {
       }
     }
     
-    function handleResetClick(e) {
+    function handleLogClick() {
+      if (showLog) console.log("log deactivated");
+      else console.log("log activated");
+      setShowLog(!showLog);
+    }
+
+    function handleResetClick() {
       
-      e.preventDefault();
       if (gameActive) {   
         setGrid(createGrid());
         setGame(0);
         setActive(false);
+        setCount(0);
+        setLog('');
       }
       else {
         setActive(true);
@@ -108,36 +157,40 @@ export default function ConnectFour(props) {
         else {
           setNext(false);
           makeMove(3, createGrid(), false);
+          setLog("> move: 1 | no moves to analyze");
+          setCount(2);
           setNext(true);
         }
       }
     }
 
     return (
-      <div className={"background"}>
         <div className={"connect-four"}>
           <div className={"header"}>
             <h1>CONNECT FOUR AI</h1>
             <h2>made by jannis becketepe and timon kobusch.</h2>
           </div>
-          <div className={"menu"}>
-            <button className="game-button" onClick={handleResetClick}>{gameActive ? 'reset' : 'start game'}</button>
-            {gameActive && gameState===0 && !pNext && <div className="load"></div>}
-            <p>{gameActive && gameState === 0 ? pNext ? 'your turn. click a column.' : 'the computer is thinking.' : ''}</p>
-            <p>{gameState === 1 ? 'you won!' : gameState === -1 ? 'the computer won.' : ''}</p>
-          </div>
+         
+          <Menu
+            active ={gameActive}
+            state = {gameState}
+            pNext = {pNext}
+            click = {() => handleResetClick()}
+          />
+            
           <Board 
               grid={grid}
               onClick={i => handleClick(i)}
           />
-          <div className={"log-switch"}>
+          <div className={"log-switch"} >
             <label className={"switch"}>
-              <input type="checkbox"/>
+              <input type="checkbox" onClick={() => handleLogClick()}/>
               <span className={"slider round"}></span>
             </label>
+            <p>show log</p>
           </div>
+          <Log show ={showLog} log={log}/>
         </div>
-      </div>
     );
 }
 
@@ -148,10 +201,11 @@ function createGrid() {
     }
     return x;
 }
-
+/* 
 function checkFields(a, b, c, d) {
   if (a && a === b && b === c && c === d) {
     return a;
   }
   return null;
 }
+*/
