@@ -165,9 +165,13 @@ export default function ConnectFour(props) {
 
     return (
         <div className={"connect-four"}>
+          <MetaTags>
+            <title>Connect 4 AI</title>
+            <meta name="description" content="Try to beat the computer in Connect Four!" />
+          </MetaTags>
           <div className={"header"}>
             <h1>CONNECT FOUR AI</h1>
-            <h2>made by jannis becketepe and timon kobusch.</h2>
+            <h2>made by jannis becktepe and timon kobusch.</h2>
           </div>
          
           <Menu
