@@ -16,8 +16,8 @@ export async function aiMove(grid) {
         let moves = generateMoves(grid); // possible moves array
         let maxValue = -Infinity;
         let v;
-        // maximum of 1000000 searches because moves m^depth = searches
-        let maxdepth = Math.round(Math.log(5000000) / Math.log(moves.length));
+        // maximum of 2000000 searches because moves m^depth = searches
+        let maxdepth = Math.round(Math.log(2000000) / Math.log(moves.length));
 
         if (moves.length === 1) 
             resolve([moves[0].col, " | no moves need to be analysed"]); 
@@ -91,11 +91,10 @@ function evaluate(grid, color, depth) {
 // returns occurrences of three cells and an empty cell in a row owned by player
 function countThree(grid, player) {
     function checkFields(a, b, c, d) {
-        if ((player === a && a === b && b === c && d === null) ||
+         return ((player === a && a === b && b === c && d === null) ||
             (player === a && a === b && c === null && b === d) ||
             (player === a && b === null && a === c && c === d) ||
-            (null === a && a === b && b === c && d === player)) return true
-        else return false;
+            (null === a && a === b && b === c && d === player));
     }
 
     let count = 0;

@@ -1,6 +1,7 @@
 import '../style/connectFour.css';
 import { useState } from 'react';
 import { aiMove , isGameOver} from './logic';
+import MetaTags from 'react-meta-tags';
 
 // npm run deploy
 // npm start
@@ -161,8 +162,15 @@ export default function ConnectFour(props) {
       }
     }
 
+
     return (
         <div className={"connect-four"}>
+          <MetaTags>
+            <title>Connect 4</title>
+            <meta property="og:title" content="Connect Four AI, try to beat it!" />
+            <meta property="og:image" content="style\images\testicon.png" />
+            <meta name="google-site-verification" content="KiaAkpTAz6VAnljcFAauuaSWP4VuwH1ABPcZpTsdnvc" />
+          </MetaTags>
           <div className={"header"}>
             <h1>CONNECT FOUR AI</h1>
             <h2>made by jannis becketepe and timon kobusch.</h2>
@@ -184,9 +192,9 @@ export default function ConnectFour(props) {
               <input type="checkbox" onClick={() => handleLogClick()}/>
               <span className={"slider round"}></span>
             </label>
-            <p>show log</p>
+            <p>show stats</p>
           </div>
-          <Log show ={showLog} log={log}/>
+          <Log show={showLog} log={log}/>
         </div>
     );
 }
