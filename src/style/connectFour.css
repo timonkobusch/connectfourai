@@ -397,7 +397,7 @@ input:checked + .slider:before {
         font-size: 1.8vw;
     }
     .switch {
-        --radius: 30px;
+        --radius: 20px;
         --gap: 4px;
     }
     .log {
@@ -453,7 +453,7 @@ input:checked + .slider:before {
     }
     .switch {
         --radius: 20px;
-        --gap: 3px;
+        --gap: 4px;
     }
     .log {
         width: 40%;

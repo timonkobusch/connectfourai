@@ -5,7 +5,7 @@ import MetaTags from 'react-meta-tags';
 
 // npm run deploy
 // npm start
-
+// <(*_*)>
 function Cell(props) {
   let classname;
   if (props.value === 1) classname = 'p1';
@@ -46,7 +46,7 @@ function State(props) {
   if (s ===  1) text = 'you have won! this must be a bug...';
   if (s === -1) text = 'the computer has won.';
   if (s ===  2) text = 'the game is a draw.';
-  if (s ===  0)  text = props.pnext ? 'your turn. click a column.' : 'the computer is thinking.';
+  if (s ===  0 && props.active)  text = props.pnext ? 'your turn. click a column.' : 'the computer is thinking.';
 
   return <p>{text}</p>
 }
@@ -64,7 +64,7 @@ function Menu(props) {
   return (<div className={"menu"}>
               <button className="game-button" onClick={click}>{active ? 'reset' : 'start game'}</button>
               {load}
-              <State state={state} pnext ={pnext}/>
+              <State state={state} pnext ={pnext} active={active}/>
           </div>)
 }
 
